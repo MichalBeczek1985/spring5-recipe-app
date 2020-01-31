@@ -1,14 +1,15 @@
 package com.majkel.spring5recipeapp.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-
+@EqualsAndHashCode(exclude = {"recipe"})
 @Entity
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,5 +22,18 @@ public class Ingredient {
     private Recipe recipe;
 
     @OneToOne (fetch = FetchType.EAGER)
-    private UnitOfMeasure unitOfMeasure;
+    private UnitOfMeasure uom;
+
+    public Ingredient(String description, BigDecimal amount, UnitOfMeasure uom) {
+        this.description = description;
+        this.amount = amount;
+        this.uom = uom;
+    }
+
+    public Ingredient(String description, BigDecimal amount, UnitOfMeasure uom, Recipe recipe) {
+        this.description = description;
+        this.amount = amount;
+        this.uom = uom;
+        this.recipe = recipe;
+    }
 }
